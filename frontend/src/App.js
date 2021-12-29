@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Chatroom from "./components/Chatroom";
 import LoginCard from "./components/LoginCard";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);

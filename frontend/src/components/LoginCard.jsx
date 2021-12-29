@@ -22,7 +22,11 @@ export default function LoginCard({ handleLogin }) {
         component="form"
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 3 }}
+        sx={{
+          width: 1 / 2,
+          height: 1 / 3,
+          backgroundColor: "warning.light",
+        }}
       >
         <TextField
           onInput={handleInput}

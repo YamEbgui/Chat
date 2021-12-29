@@ -1,16 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import { Button, Card, TextField } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 import io from "socket.io-client";
+import ChatLog from "./ChatLog";
+import { removeUser } from "../utils";
+import Users from "./Users";
+import { Form } from "react-bootstrap";
 
 export default function Chatroom({ user }) {
   const [currentMessage, setCurrentMessage] = useState({ message: "" });
   const [chat, setChat] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const socketRef = useRef();
 
   useEffect(() => {
     socketRef.current = io.connect(`http://localhost:3000/`, {
       query: { user },
+    });
+
+    socketRef.current.on("connectionSucceed", ({ users }) => {
+      setUsers(users);
     });
 
     socketRef.current.on("messageBack", ({ id, name, message }) => {
@@ -31,22 +41,13 @@ export default function Chatroom({ user }) {
     setCurrentMessage({ message: "" });
   };
 
-  const renderChat = () => {
-    return chat.map(({ id, name, message }) => (
-      <div key={id}>
-        {!message && <h4>{name} has disconnected</h4>}
-        {message && (
-          <h3>
-            {name}: <span>{message}</span>
-          </h3>
-        )}
-      </div>
-    ));
-  };
-
   return (
-    <div className="card">
-      <form onSubmit={onMessageSubmit}>
+    <Card variant="outlined" className="card d-flex flex-column ">
+      <div className="topOfCard d-flex flex-row">
+        <ChatLog messages={chat} />
+        <Users users={removeUser(users, user)} />
+      </div>
+      <Form className="buttonOfCard" onSubmit={onMessageSubmit}>
         <h1>Messenger</h1>
         <div>
           <TextField
@@ -58,12 +59,15 @@ export default function Chatroom({ user }) {
             label="Message"
           />
         </div>
-        <button>Send Message</button>
-      </form>
-      <div className="render-chat">
-        <h1>Chat Log</h1>
-        {renderChat()}
-      </div>
-    </div>
+        <Button
+          sx={{ backgroundColor: "green" }}
+          type="submit"
+          variant="contained"
+          endIcon={<SendIcon />}
+        >
+          Send
+        </Button>
+      </Form>
+    </Card>
   );
 }

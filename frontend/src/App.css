@@ -1,0 +1,45 @@
+html {
+  font-size: 1rem;
+  background-color: coral;
+}
+
+.chatLog {
+  background-color: gold;
+  overflow: auto;
+  max-height: 60vh;
+  max-width: 50vw;
+}
+
+.activeUsers {
+  background-color: red;
+  overflow: auto;
+  max-height: 60vh;
+}
+
+.buttonOfCard {
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: green;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #141313;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
